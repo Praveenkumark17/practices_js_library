@@ -3,10 +3,21 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Home from './Components/Day_1/home';
+
+function Demo(){
+  return(
+    <>
+    <h1>Demo Component</h1>
+    </>
+  );
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    {/* <Demo/> */}
+    {/* <Home/> */}
     <App />
   </React.StrictMode>
 );
