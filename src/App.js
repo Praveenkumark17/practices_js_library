@@ -1,5 +1,5 @@
 import './App.css';
-import Car from './Components/car';
+import Car from './Components/Day_2/car';
 
 function App() {
   return (
