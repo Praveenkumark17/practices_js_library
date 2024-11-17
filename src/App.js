@@ -1,16 +1,13 @@
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Firstpage from "./Components/Day_7/firstpage";
-import Secondpage from "./Components/Day_7/secondpage";
-import User from "./Components/Day_7/user";
-import Firstnested from "./Components/Day_7/firstnested";
-import Secondnested from "./Components/Day_7/secondnesred";
-import Login from "./Components/Day_7/login";
+import Api from "./Components/Day_8/api";
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+
+      {/* Route Concept */}
+
+      {/* <BrowserRouter>
         <ul>
           <li>
             <Link to={"/"}>Home</Link>
@@ -46,7 +43,10 @@ function App() {
 
           <Route path="login" element={<Login/>}/>
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
+
+      <Api/>
+
     </div>
   );
 }
