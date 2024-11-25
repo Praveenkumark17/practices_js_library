@@ -31,6 +31,8 @@ export default function Api(){
 
     const onadd = () =>{
 
+        const newId = data.length > 0 ? Math.max(...data.map((user) => user.id)) + 1 : 1;
+
         fetch("https://jsonplaceholder.typicode.com/users", {
             method: 'POST',
             body: JSON.stringify(newdata),
@@ -40,7 +42,12 @@ export default function Api(){
           })
           .then((res) => res.json())
           .then((response) => {
-            setData((prevData) => [...prevData, response]);
+            const updatedResponse = {...response,id:newId};
+            setData((prev) => {
+                const updateUser = [...prev,updatedResponse];
+                console.log('updated data:', updateUser);
+                return updateUser;
+            });
           })
           .catch((error) => {
             console.error('Error:', error);
@@ -48,7 +55,8 @@ export default function Api(){
           
 
         AppToster.show({
-            message:"Data Added Successfull!!"
+            message:"Data Added Successfull!!",
+            intent:'success'
         })
 
         setNewdata({
@@ -56,6 +64,69 @@ export default function Api(){
             email:'',
             website:''
         })
+    }
+
+    const onHandlechange = (id,name,value) =>{
+
+        setData((users)=>{
+            return users.map(user=>{
+                return user.id === id?{...user,[name]:value}:user;
+            })
+        })
+
+    }
+
+
+    //Update data
+
+    const onUpdatedata = (id) =>{
+
+        const user = data.find((user)=>user.id === id);
+        if(user.id<=10){
+            fetch(`https://jsonplaceholder.typicode.com/users/${id}`,{
+                method:'PUT',
+                body:JSON.stringify(user),
+                headers:{
+                    "Content-Type":"application/JSON: charset-UTF-8",
+                }
+            })
+            .then((res)=>res.json())
+            .then((response)=>{
+                AppToster.show({
+                    message:'user updated successfully',
+                    intent:'primary'
+                })
+            })
+        }else{
+            AppToster.show({
+                message:'user updated successfully',
+                intent:'primary'
+            })
+        }
+    
+    }
+
+    //Delete user
+
+    const onDeletedata = (id) => {
+        fetch(`https://jsonplaceholder.typicode.com/users/${id}`,{
+            method:"delete",
+            headers:{
+              "Content-Type":"application/JSON: charset-UTF-8",
+            }
+          })
+          .then((response)=>response.json())
+          .then(()=>{
+            setData((users)=>{
+              return users.filter(user=>user.id !==id)
+            })
+      
+            AppToster.show({
+              message:"user deleted successfully",
+              intent:"danger",
+              timeout:3000,
+            })
+          })
     }
 
     
@@ -76,13 +147,13 @@ export default function Api(){
                 </thead>
                 <tbody>
                     {data.map((user,index)=>(
-                        <tr>
-                        <td>{index+1}</td>
+                        <tr key={user.id}>
+                        <td>{user.id}</td>
                         <td>{user.name}</td>
-                        <td><EditableText value={user.email}/></td>
-                        <td><EditableText value={user.website}/></td>
+                        <td><EditableText value={user.email} onChange={value=>{onHandlechange(user.id,'email',value)}}/></td>
+                        <td><EditableText value={user.website} onChange={value=>{onHandlechange(user.id,'website',value)}}/></td>
                         <td>
-                            <Button intent="primary">Edit</Button> <Button intent="danger">Delete</Button>
+                            <Button intent="primary" onClick={()=>onUpdatedata(user.id)}>Update</Button> <Button intent="danger" onClick={()=>onDeletedata(user.id)}>Delete</Button>
                         </td>
                     </tr>
                     ))}
