@@ -1,5 +1,9 @@
 import "./App.css";
-import Api from "./Components/Day_8/api";
+import Hooks from "./Components/Day_9/hooks";
+import Hookscallback from "./Components/Day_9/hooks_callback";
+import Hookscontext from "./Components/Day_9/hooks_context";
+import Uselayeffect from "./Components/Day_9/hooks_uselayouteffect";
+import Usereduser from "./Components/Day_9/hooks_usereduse";
 
 function App() {
   return (
@@ -45,7 +49,13 @@ function App() {
         </Routes>
       </BrowserRouter> */}
 
-      <Api/>
+      {/* <Api/> */}
+
+      <Hooks/>
+      <Hookscallback/>
+      <Hookscontext/>
+      <Usereduser/>
+      <Uselayeffect/>
 
     </div>
   );
